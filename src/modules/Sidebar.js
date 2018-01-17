@@ -1,38 +1,50 @@
 import React from 'react';
 
-export default function Sidebar() {
+export default function Sidebar(props) {
+    const archivesItems = props.archives;
+    const elsewhereItems = props.elsewhere;
+
     return (
         <aside className="col-sm-3 ml-sm-auto blog-sidebar">
-            <div className="sidebar-module sidebar-module-inset">
-                <h4>About</h4>
-                <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-            </div>
-            <div className="sidebar-module">
-                <h4>Archives</h4>
-                <ol className="list-unstyled">
-                    <li><a href="#">March 2014</a></li>
-                    <li><a href="#">February 2014</a></li>
-                    <li><a href="#">January 2014</a></li>
-                    <li><a href="#">December 2013</a></li>
-                    <li><a href="#">November 2013</a></li>
-                    <li><a href="#">October 2013</a></li>
-                    <li><a href="#">September 2013</a></li>
-                    <li><a href="#">August 2013</a></li>
-                    <li><a href="#">July 2013</a></li>
-                    <li><a href="#">June 2013</a></li>
-                    <li><a href="#">May 2013</a></li>
-                    <li><a href="#">April 2013</a></li>
-                </ol>
-            </div>
-            <div className="sidebar-module">
-                <h4>Elsewhere</h4>
-                <ol className="list-unstyled">
-                    <li><a href="#">GitHub</a></li>
-                    <li><a href="#">Twitter</a></li>
-                    <li><a href="#">Facebook</a></li>
-                </ol>
-            </div>
+            <SidebarModule additionalClass="sidebar-module-inset" title="About">
+                <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet
+                    fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+            </SidebarModule>
+            <SidebarModule title="Archives">
+                <UnstyledList items={archivesItems}/>
+            </SidebarModule>
+            <SidebarModule title="Elsewhere">
+                <UnstyledList items={elsewhereItems}/>
+            </SidebarModule>
         </aside>
     );
+}
 
+function SidebarModule(props) {
+    const className = "sidebar-module " + props.additionalClass;
+    return (
+        <div className={className}>
+            <h4>{props.title}</h4>
+            {props.children}
+        </div>
+    );
+}
+
+function UnstyledList(props) {
+    const items = props.items;
+
+    const elements = items.map(item => {
+            return (
+                <li key={item}>
+                    <a href="#">{item}</a>
+                </li>
+            );
+        }
+    );
+
+    return (
+        <ol className="list-unstyled">
+            {elements}
+        </ol>
+    );
 }
